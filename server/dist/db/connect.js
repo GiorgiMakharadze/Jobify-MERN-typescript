@@ -12,28 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-require("dotenv/config");
-const morgan_1 = __importDefault(require("morgan"));
-const middleware_1 = require("./middleware/");
-const connect_1 = require("./db/connect");
-const app = (0, express_1.default)();
-const port = process.env.PORT || 5000;
-//middlewares
-app.use((0, morgan_1.default)("tiny"));
-app.get("/", (req, res) => {
-    res.send("welcome");
-});
-// error handling
-app.use(middleware_1.notFoundMiddleware);
-app.use(middleware_1.errorHandlerMiddleware);
-const start = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.connectDB = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const connectDB = (url) => __awaiter(void 0, void 0, void 0, function* () {
+    mongoose_1.default.set("strictQuery", false);
     try {
-        yield (0, connect_1.connectDB)(process.env.MONGO_URL);
-        app.listen(port, () => console.log(`Server is listening on port ${port} ...`));
+        yield mongoose_1.default.connect(url);
+        console.log("Connected to MongoDB");
     }
-    catch (error) {
-        console.log(error);
+    catch (err) {
+        console.log("Error connecting to MongoDB:", err.message);
     }
 });
-start();
+exports.connectDB = connectDB;
