@@ -5,7 +5,7 @@ import { IUserSchema } from "../types/";
 const UserSchema = new Schema<IUserSchema>({
   name: {
     type: String,
-    required: [true, "Please provide name"],
+    required: [true, "Please provide name "],
     minlength: 3,
     maxlength: 20,
     trim: true,
@@ -13,7 +13,7 @@ const UserSchema = new Schema<IUserSchema>({
   email: {
     type: String,
     unique: true,
-    required: [true, "Please provide email"],
+    required: [true, "Please provide email "],
     validate: {
       validator: validator.isEmail,
       message: "Please provide  valid email",
@@ -21,7 +21,7 @@ const UserSchema = new Schema<IUserSchema>({
   },
   password: {
     type: String,
-    required: [true, "Please provide password"],
+    required: [true, "Please provide password "],
     minlength: 6,
   },
   lastName: {
