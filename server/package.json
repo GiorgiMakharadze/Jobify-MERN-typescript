@@ -11,17 +11,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "concurrently": "^8.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "http-status-codes": "^2.1.4",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.0.8",
     "morgan": "^1.10.0",
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.16.0",
     "@types/validator": "^13.7.15",

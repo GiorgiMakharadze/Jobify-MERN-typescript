@@ -26,7 +26,16 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         throw new errors_1.BadRequestError("Email already in use");
     }
     const user = yield User_1.default.create({ name, email, password });
-    res.status(http_status_codes_1.StatusCodes.CREATED).json({ name, email, password });
+    const token = user.createJWT();
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({
+        user: {
+            email: user.email,
+            name: user.name,
+            lastName: user.lastName,
+            location: user.location,
+        },
+        token,
+    });
 });
 exports.register = register;
 const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
