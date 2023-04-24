@@ -17,13 +17,19 @@ require("dotenv/config");
 const morgan_1 = __importDefault(require("morgan"));
 const middleware_1 = require("./middleware/");
 const connect_1 = require("./db/connect");
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const jobsRoutes_1 = __importDefault(require("./routes/jobsRoutes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
-//middlewares
+//middleware
 app.use((0, morgan_1.default)("tiny"));
+app.use(express_1.default.json());
+//routes
 app.get("/", (req, res) => {
     res.send("welcome");
 });
+app.use("/api/v1/auth", authRoutes_1.default);
+app.use("/api/v1/jobs", jobsRoutes_1.default);
 // error handling
 app.use(middleware_1.notFoundMiddleware);
 app.use(middleware_1.errorHandlerMiddleware);

@@ -25,7 +25,7 @@ const resetPassword = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  res.send("resetPassword");
+  res.send("updateUser");
 };
 
 export {
