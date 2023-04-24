@@ -3,15 +3,21 @@ import "dotenv/config";
 import morgan from "morgan";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
 import { connectDB } from "./db/connect";
+import authRouter from "./routes/authRoutes";
+
 const app = express();
 const port = process.env.PORT || 5000;
 
-//middlewares
+//middleware
 app.use(morgan("tiny"));
+app.use(express.json());
 
+//routes
 app.get("/", (req, res) => {
   res.send("welcome");
 });
+
+app.use("/api/v1/auth", authRouter);
 
 // error handling
 app.use(notFoundMiddleware);
