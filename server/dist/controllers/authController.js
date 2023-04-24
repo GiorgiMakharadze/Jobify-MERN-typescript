@@ -8,10 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.resetPassword = exports.logout = exports.forgotPassword = exports.login = exports.verifyEmail = exports.register = void 0;
+const http_status_codes_1 = require("http-status-codes");
+const User_1 = __importDefault(require("../models/User"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("register user");
+    const user = yield User_1.default.create(req.body);
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ user });
 });
 exports.register = register;
 const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

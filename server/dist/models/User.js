@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const validator_1 = __importDefault(require("validator"));
 const UserSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -34,8 +38,12 @@ const UserSchema = new mongoose_1.Schema({
     },
     email: {
         type: String,
-        required: [true, "Please provide email"],
         unique: true,
+        required: [true, "Please provide email"],
+        validate: {
+            validator: validator_1.default.isEmail,
+            message: "Please provide  valid email",
+        },
     },
     password: {
         type: String,

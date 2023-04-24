@@ -12,12 +12,12 @@ const UserSchema = new Schema<IUserSchema>({
   },
   email: {
     type: String,
+    unique: true,
     required: [true, "Please provide email"],
     validate: {
-      valdiator: validator.isEmail,
-      message: "Please provide valid email",
+      validator: validator.isEmail,
+      message: "Please provide  valid email",
     },
-    unique: true,
   },
   password: {
     type: String,

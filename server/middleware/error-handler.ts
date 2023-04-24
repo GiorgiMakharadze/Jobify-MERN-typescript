@@ -7,10 +7,11 @@ const errorHandlerMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(err);
-  res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "there was an error" });
+  const defaultError = {
+    statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+    msg: "Something went wrong",
+  };
+  res.status(defaultError.statusCode).json({ msg: err });
 };
 
 export default errorHandlerMiddleware;
