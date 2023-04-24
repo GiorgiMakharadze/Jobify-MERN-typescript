@@ -15,8 +15,8 @@ app.use(morgan("tiny"));
 app.use(express.json());
 
 //routes
-app.get("/", (req, res) => {
-  res.send("welcome");
+app.get("/api/v1", (req, res) => {
+  res.send({ msg: "API!" });
 });
 
 app.use("/api/v1/auth", authRouter);

@@ -26,8 +26,8 @@ const port = process.env.PORT || 5000;
 app.use((0, morgan_1.default)("tiny"));
 app.use(express_1.default.json());
 //routes
-app.get("/", (req, res) => {
-    res.send("welcome");
+app.get("/api/v1", (req, res) => {
+    res.send({ msg: "API!" });
 });
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/jobs", jobsRoutes_1.default);
