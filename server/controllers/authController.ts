@@ -13,7 +13,7 @@ const login = async (req: Request, res: Response) => {
 };
 
 const logout = async (req: Request, res: Response) => {
-  res.send("register user");
+  res.send("logout user");
 };
 
 const forgotPassword = async (req: Request, res: Response) => {

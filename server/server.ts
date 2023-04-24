@@ -4,6 +4,7 @@ import morgan from "morgan";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
 import { connectDB } from "./db/connect";
 import authRouter from "./routes/authRoutes";
+import jobsRouter from "./routes/jobsRoutes";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/jobs", jobsRouter);
 
 // error handling
 app.use(notFoundMiddleware);
