@@ -1,4 +1,10 @@
-import { DISPLAY_ALERT, CLEAR_ALERT } from "../src/context/action";
+import {
+  DISPLAY_ALERT,
+  CLEAR_ALERT,
+  REGISTER_USER_BEGIN,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
+} from "../src/context/action";
 
 export interface IContextState {
   isLoading: boolean;
@@ -12,4 +18,16 @@ export interface IDisplayAlertAction {
 }
 export interface IClearAlertAction {
   type: typeof CLEAR_ALERT;
+}
+export interface IRegisterUserBegin {
+  type: typeof REGISTER_USER_BEGIN;
+}
+export interface IRegisterUserSuccess {
+  type: typeof REGISTER_USER_SUCCESS;
+  payload: any;
+  token?: string;
+}
+export interface IRegisterUserError {
+  type: typeof REGISTER_USER_ERROR;
+  payload: any;
 }
