@@ -21,7 +21,7 @@ type Action =
   | IRegisterUserSuccess
   | IRegisterUserError;
 
-const reducer = (state: any, action: Action): IContextState => {
+const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === DISPLAY_ALERT) {
     return {
       ...state,

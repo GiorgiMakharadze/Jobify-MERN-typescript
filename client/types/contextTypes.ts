@@ -6,11 +6,17 @@ import {
   REGISTER_USER_ERROR,
 } from "../src/context/action";
 
+const token = localStorage.getItem("token");
+
 export interface IContextState {
   isLoading: boolean;
   showAlert: boolean;
   alertText: string;
   alertType: string;
+  token: undefined | null | typeof token;
+  user: undefined | null;
+  userLocation: string;
+  jobLocation: string;
 }
 
 export interface IDisplayAlertAction {
@@ -25,7 +31,6 @@ export interface IRegisterUserBegin {
 export interface IRegisterUserSuccess {
   type: typeof REGISTER_USER_SUCCESS;
   payload: any;
-  token?: string;
 }
 export interface IRegisterUserError {
   type: typeof REGISTER_USER_ERROR;
