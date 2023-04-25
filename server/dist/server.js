@@ -23,7 +23,9 @@ const jobsRoutes_1 = __importDefault(require("./routes/jobsRoutes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
 //middleware
-app.use((0, morgan_1.default)("tiny"));
+if (process.env.NODE_ENV !== "production") {
+    app.use((0, morgan_1.default)("dev"));
+}
 app.use(express_1.default.json());
 //routes
 app.get("/api/v1", (req, res) => {

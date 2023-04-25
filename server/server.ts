@@ -11,7 +11,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //middleware
-app.use(morgan("tiny"));
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
 app.use(express.json());
 
 //routes
