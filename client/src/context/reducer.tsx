@@ -2,24 +2,24 @@ import {
   IClearAlertAction,
   IContextState,
   IDisplayAlertAction,
-  IRegisterUserBegin,
-  IRegisterUserSuccess,
-  IRegisterUserError,
+  ISetupUserBegin,
+  ISetupUserSuccess,
+  ISetupUserError,
 } from "../../types/contextTypes";
 import {
-  DISPLAY_ALERT,
   CLEAR_ALERT,
-  REGISTER_USER_BEGIN,
-  REGISTER_USER_SUCCESS,
-  REGISTER_USER_ERROR,
+  DISPLAY_ALERT,
+  SETUP_USER_BEGIN,
+  SETUP_USER_SUCCESS,
+  SETUP_USER_ERROR,
 } from "./action";
 
 type Action =
   | IDisplayAlertAction
   | IClearAlertAction
-  | IRegisterUserBegin
-  | IRegisterUserSuccess
-  | IRegisterUserError;
+  | ISetupUserBegin
+  | ISetupUserSuccess
+  | ISetupUserError;
 
 const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === DISPLAY_ALERT) {
@@ -30,6 +30,7 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       alertText: "Please provide all values!",
     };
   }
+
   if (action.type === CLEAR_ALERT) {
     return {
       ...state,
@@ -38,13 +39,14 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       alertText: "",
     };
   }
-  if (action.type === REGISTER_USER_BEGIN) {
+
+  if (action.type === SETUP_USER_BEGIN) {
     return {
       ...state,
       isLoading: true,
     };
   }
-  if (action.type === REGISTER_USER_SUCCESS) {
+  if (action.type === SETUP_USER_SUCCESS) {
     return {
       ...state,
       isLoading: false,
@@ -54,10 +56,10 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       jobLocation: action.payload.location,
       showAlert: true,
       alertType: "success",
-      alertText: "User Created! Redirecting...",
+      alertText: action.payload.alertText,
     };
   }
-  if (action.type === REGISTER_USER_ERROR) {
+  if (action.type === SETUP_USER_ERROR) {
     return {
       ...state,
       isLoading: false,
@@ -66,7 +68,6 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       alertText: action.payload.msg,
     };
   }
-
   throw new Error(`no such action: ${action}`);
 };
 
