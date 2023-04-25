@@ -6,6 +6,7 @@ import {
   ISetupUserSuccess,
   ISetupUserError,
   IToggleSidebar,
+  ILogoutUser,
 } from "../../types/contextTypes";
 import {
   CLEAR_ALERT,
@@ -14,7 +15,10 @@ import {
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
+  LOGOUT_USER,
 } from "./action";
+
+import { initialState } from "./appContext";
 
 type Action =
   | IDisplayAlertAction
@@ -22,7 +26,8 @@ type Action =
   | ISetupUserBegin
   | ISetupUserSuccess
   | ISetupUserError
-  | IToggleSidebar;
+  | IToggleSidebar
+  | ILogoutUser;
 
 const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === DISPLAY_ALERT) {
@@ -49,6 +54,7 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       isLoading: true,
     };
   }
+
   if (action.type === SETUP_USER_SUCCESS) {
     return {
       ...state,
@@ -62,6 +68,7 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       alertText: action.payload.alertText,
     };
   }
+
   if (action.type === SETUP_USER_ERROR) {
     return {
       ...state,
@@ -71,10 +78,21 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       alertText: action.payload.msg,
     };
   }
+
   if (action.type === TOGGLE_SIDEBAR) {
     return {
       ...state,
       showSidebar: !state.showSidebar,
+    };
+  }
+
+  if (action.type === LOGOUT_USER) {
+    return {
+      ...initialState,
+      user: null,
+      token: null,
+      userLocation: "",
+      jobLocation: "",
     };
   }
   throw new Error(`no such action: ${action}`);

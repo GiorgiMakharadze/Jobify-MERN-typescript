@@ -8,6 +8,7 @@ import {
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
+  LOGOUT_USER,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -88,9 +89,21 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: TOGGLE_SIDEBAR });
   };
 
+  const logoutUser = () => {
+    dispatch({ type: LOGOUT_USER });
+    removeUserFromLocalStorage();
+  };
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, clearAlert, setupUser, toggleSidebar }}
+      value={{
+        ...state,
+        displayAlert,
+        clearAlert,
+        setupUser,
+        toggleSidebar,
+        logoutUser,
+      }}
     >
       {children}
     </AppContext.Provider>
