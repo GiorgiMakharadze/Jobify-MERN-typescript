@@ -43,7 +43,21 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.verifyEmail = verifyEmail;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("login user");
+    const { email, password } = req.body;
+    if (!email || !password) {
+        throw new errors_1.BadRequestError("PLease provide all values");
+    }
+    const user = yield User_1.default.findOne({ email }).select("+password");
+    if (!user) {
+        throw new errors_1.UnauthenticatedError("Invalid Credentials");
+    }
+    const isPasswordCorrect = yield user.comparePassword(password);
+    if (!isPasswordCorrect) {
+        throw new errors_1.UnauthenticatedError("Invalid Credentials");
+    }
+    const token = user.createJWT();
+    user.password = undefined;
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user, token, location: user.location });
 });
 exports.login = login;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
