@@ -73,6 +73,7 @@ const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.resetPassword = resetPassword;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.user);
     res.send("updateUser");
 });
 exports.updateUser = updateUser;

@@ -65,6 +65,8 @@ const resetPassword = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
+  console.log(req.user);
+
   res.send("updateUser");
 };
 
