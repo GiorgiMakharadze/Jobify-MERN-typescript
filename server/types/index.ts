@@ -1,3 +1,5 @@
 import { IUserSchema } from "./userModelSchemaTypes";
+import { IRequestWithUser } from "./requestWitchUser";
+import { IJobSchema } from "./jobModelScheamTypes";
 
-export { IUserSchema };
+export { IUserSchema, IRequestWithUser, IJobSchema };
