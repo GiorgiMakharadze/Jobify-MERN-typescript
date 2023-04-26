@@ -1,4 +1,4 @@
-import { FormRow, Alert } from "../../components";
+import { FormRow, Alert, FormRowSelect } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
@@ -26,7 +26,7 @@ const AddJob = () => {
     console.log("create job");
   };
 
-  const handleJobInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleJobInput = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const name = e.target.name;
     const value = e.target.value;
     console.log(`${name}:${value}`);
@@ -56,6 +56,19 @@ const AddJob = () => {
             name="jobLocation"
             value={jobLocation}
             handleChange={handleJobInput}
+          />
+          <FormRowSelect
+            name="status"
+            value={status}
+            handleChange={handleJobInput}
+            list={statusOptions}
+          />
+          <FormRowSelect
+            name="jobType"
+            labelText="job type"
+            value={jobType}
+            handleChange={handleJobInput}
+            list={jobTypeOptions}
           />
           <div className="btn-container">
             <button
