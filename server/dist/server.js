@@ -18,6 +18,7 @@ require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
 const middleware_1 = require("./middleware/");
 const connect_1 = require("./db/connect");
+const auth_1 = __importDefault(require("./middleware/auth"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const jobsRoutes_1 = __importDefault(require("./routes/jobsRoutes"));
 const app = (0, express_1.default)();
@@ -32,7 +33,7 @@ app.get("/api/v1", (req, res) => {
     res.send({ msg: "API!" });
 });
 app.use("/api/v1/auth", authRoutes_1.default);
-app.use("/api/v1/jobs", jobsRoutes_1.default);
+app.use("/api/v1/jobs", auth_1.default, jobsRoutes_1.default);
 // error handling
 app.use(middleware_1.notFoundMiddleware);
 app.use(middleware_1.errorHandlerMiddleware);

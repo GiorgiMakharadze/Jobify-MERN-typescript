@@ -10,7 +10,7 @@ export interface IUserSchema extends Document {
       message: string;
     };
   };
-  password: string;
+  password?: string;
   lastName: string;
   location: string;
   createJWT: () => string;

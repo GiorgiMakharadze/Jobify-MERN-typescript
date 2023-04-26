@@ -4,6 +4,7 @@ import "express-async-errors";
 import morgan from "morgan";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
 import { connectDB } from "./db/connect";
+import authenticateUser from "./middleware/auth";
 import authRouter from "./routes/authRoutes";
 import jobsRouter from "./routes/jobsRoutes";
 
@@ -22,7 +23,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // error handling
 app.use(notFoundMiddleware);

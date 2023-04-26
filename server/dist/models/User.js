@@ -77,8 +77,10 @@ const UserSchema = new mongoose_1.Schema({
 });
 UserSchema.pre("save", function () {
     return __awaiter(this, void 0, void 0, function* () {
-        const salt = yield bcryptjs_1.default.genSalt(10);
-        this.password = yield bcryptjs_1.default.hash(this.password, salt);
+        if (this.password) {
+            const salt = yield bcryptjs_1.default.genSalt(10);
+            this.password = yield bcryptjs_1.default.hash(this.password, salt);
+        }
     });
 });
 UserSchema.methods.createJWT = function () {
