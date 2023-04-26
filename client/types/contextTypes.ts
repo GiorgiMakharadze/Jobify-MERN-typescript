@@ -11,6 +11,9 @@ import {
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from "../src/context/action";
 
 const token = localStorage.getItem("token");
@@ -83,5 +86,19 @@ export interface IHandleChange {
 }
 export interface IClearValues {
   type: typeof CLEAR_VALUES;
+  payload?: any;
+}
+
+export interface ICreateJobSuccess {
+  type: typeof CREATE_JOB_SUCCESS;
+  payload?: any;
+}
+
+export interface ICreateJobBegin {
+  type: typeof CREATE_JOB_BEGIN;
+  payload?: any;
+}
+export interface ICreateJobError {
+  type: typeof CREATE_JOB_ERROR;
   payload?: any;
 }

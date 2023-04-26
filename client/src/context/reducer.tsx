@@ -12,6 +12,9 @@ import {
   IUpdateUserError,
   IHandleChange,
   IClearValues,
+  ICreateJobBegin,
+  ICreateJobSuccess,
+  ICreateJobError,
 } from "../../types/contextTypes";
 import {
   CLEAR_ALERT,
@@ -26,6 +29,9 @@ import {
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from "./action";
 
 import { initialState } from "./appContext";
@@ -42,7 +48,10 @@ type Action =
   | IUpdateUserSuccess
   | IUpdateUserError
   | IHandleChange
-  | IClearValues;
+  | IClearValues
+  | ICreateJobSuccess
+  | ICreateJobBegin
+  | ICreateJobError;
 
 const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === DISPLAY_ALERT) {
@@ -161,6 +170,33 @@ const reducer = (state: IContextState, action: Action): IContextState => {
     return {
       ...state,
       ...initialState,
+    };
+  }
+
+  if (action.type === CREATE_JOB_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === CREATE_JOB_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "New Job Created!",
+    };
+  }
+
+  if (action.type === CREATE_JOB_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     };
   }
 
