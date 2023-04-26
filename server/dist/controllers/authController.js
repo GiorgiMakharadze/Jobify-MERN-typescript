@@ -45,7 +45,7 @@ exports.verifyEmail = verifyEmail;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     if (!email || !password) {
-        throw new errors_1.BadRequestError("PLease provide all values");
+        throw new errors_1.BadRequestError("Please provide all values");
     }
     const user = yield User_1.default.findOne({ email }).select("+password");
     if (!user) {
@@ -73,7 +73,21 @@ const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.resetPassword = resetPassword;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.user);
-    res.send("updateUser");
+    var _a;
+    const { email, name, location, lastName } = req.body;
+    if (!email || !name || !lastName || !location) {
+        throw new errors_1.BadRequestError("Please provide all values");
+    }
+    const user = yield User_1.default.findOne({ _id: (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId });
+    if (!user) {
+        throw new errors_1.NotFoundError("User not found");
+    }
+    user.email = email;
+    user.name = name;
+    user.lastName = lastName;
+    user.location = location;
+    yield (user === null || user === void 0 ? void 0 : user.save());
+    const token = user === null || user === void 0 ? void 0 : user.createJWT();
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user, token, location: user.location });
 });
 exports.updateUser = updateUser;

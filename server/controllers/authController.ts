@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import User from "../models/User";
-import { BadRequestError, UnauthenticatedError } from "../errors";
+import { IRequestWithUser } from "../types/requestWitchUser";
+import {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} from "../errors";
 
 const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -35,7 +40,7 @@ const verifyEmail = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    throw new BadRequestError("PLease provide all values");
+    throw new BadRequestError("Please provide all values");
   }
 
   const user = await User.findOne({ email }).select("+password");
@@ -64,10 +69,27 @@ const resetPassword = async (req: Request, res: Response) => {
   res.send("resetPassword user");
 };
 
-const updateUser = async (req: Request, res: Response) => {
-  console.log(req.user);
+const updateUser = async (req: IRequestWithUser, res: Response) => {
+  const { email, name, location, lastName } = req.body;
+  if (!email || !name || !lastName || !location) {
+    throw new BadRequestError("Please provide all values");
+  }
+  const user = await User.findOne({ _id: req.user?.userId });
 
-  res.send("updateUser");
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  user.email = email;
+  user.name = name;
+  user.lastName = lastName;
+  user.location = location;
+
+  await user?.save();
+
+  const token = user?.createJWT();
+
+  res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
 export {
