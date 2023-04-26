@@ -6,6 +6,9 @@ import {
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from "../src/context/action";
 
 const token = localStorage.getItem("token");
@@ -48,4 +51,17 @@ export interface IToggleSidebar {
 
 export interface ILogoutUser {
   type: typeof LOGOUT_USER;
+}
+
+export interface IUpdateUserBegin {
+  type: typeof UPDATE_USER_BEGIN;
+  payload?: any;
+}
+export interface IUpdateUserSuccess {
+  type: typeof UPDATE_USER_SUCCESS;
+  payload?: any;
+}
+export interface IUpdateUserError {
+  type: typeof UPDATE_USER_ERROR;
+  payload?: any;
 }
