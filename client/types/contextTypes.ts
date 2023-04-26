@@ -9,6 +9,8 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
 } from "../src/context/action";
 
 const token = localStorage.getItem("token");
@@ -23,6 +25,15 @@ export interface IContextState {
   userLocation: string;
   jobLocation: string;
   showSidebar: boolean;
+  //job
+  isEditing: boolean;
+  editJobId: string;
+  position: string;
+  company: string;
+  jobTypeOptions: string[];
+  jobType: string;
+  statusOptions: string[];
+  status: string;
 }
 
 export interface IDisplayAlertAction {
@@ -63,5 +74,14 @@ export interface IUpdateUserSuccess {
 }
 export interface IUpdateUserError {
   type: typeof UPDATE_USER_ERROR;
+  payload?: any;
+}
+
+export interface IHandleChange {
+  type: typeof HANDLE_CHANGE;
+  payload?: any;
+}
+export interface IClearValues {
+  type: typeof CLEAR_VALUES;
   payload?: any;
 }

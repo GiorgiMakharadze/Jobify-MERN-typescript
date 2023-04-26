@@ -12,6 +12,8 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -149,6 +151,15 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     }
+    clearAlert();
+  };
+
+  const handleChange = ({ name, value }: { name: string; value: any }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  };
+
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
   };
 
   return (
@@ -161,6 +172,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         toggleSidebar,
         logoutUser,
         updateUser,
+        handleChange,
+        clearValues,
       }}
     >
       {children}

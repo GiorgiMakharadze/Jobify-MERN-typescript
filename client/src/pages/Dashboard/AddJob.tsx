@@ -14,6 +14,8 @@ const AddJob = () => {
     jobTypeOptions,
     status,
     statusOptions,
+    handleChange,
+    clearValues,
   } = useAppContext();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,10 +28,10 @@ const AddJob = () => {
     console.log("create job");
   };
 
-  const handleJobInput = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+  const handleJobInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(`${name}:${value}`);
+    handleChange({ name, value });
   };
 
   return (
@@ -77,6 +79,15 @@ const AddJob = () => {
               onClick={handleSubmit}
             >
               Submit
+            </button>
+            <button
+              className="btn btn-block clear-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                clearValues();
+              }}
+            >
+              Clear
             </button>
           </div>
         </div>
