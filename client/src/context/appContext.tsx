@@ -26,6 +26,10 @@ import {
   GET_JOB_BEGIN,
   GET_JOB_SUCCESS,
   SET_EDIT_JOB,
+  DELETE_JOB_BEGIN,
+  EDIT_JOB_BEGIN,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -227,12 +231,38 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: SET_EDIT_JOB, payload: { id } });
   };
 
-  const editJob = () => {
-    console.log("edit job");
+  const editJob = async () => {
+    dispatch({ type: EDIT_JOB_BEGIN });
+    try {
+      const { position, company, jobLocation, jobType, status } = state;
+      await authFetch.patch(`/jobs/${state.editJobId}`, {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+      });
+      dispatch({ type: EDIT_JOB_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error: Error | any) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: EDIT_JOB_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
   };
 
-  const deleteJob = (id: string) => {
-    console.log(`Delete job: ${id}`);
+  const deleteJob = async (jobId: string) => {
+    dispatch({ type: DELETE_JOB_BEGIN });
+    try {
+      await authFetch.delete(`/jobs/${jobId}`);
+      getJobs();
+    } catch (error: Error | any) {
+      console.log(error.response);
+      //logoutUser();
+    }
+    clearAlert();
   };
 
   return (

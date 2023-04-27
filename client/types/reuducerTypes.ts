@@ -17,27 +17,11 @@ import {
   GET_JOB_BEGIN,
   GET_JOB_SUCCESS,
   SET_EDIT_JOB,
+  DELETE_JOB_BEGIN,
+  EDIT_JOB_BEGIN,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
 } from "../src/context/action";
-
-export type Action =
-  | IDisplayAlertAction
-  | IClearAlertAction
-  | ISetupUserBegin
-  | ISetupUserSuccess
-  | ISetupUserError
-  | IToggleSidebar
-  | ILogoutUser
-  | IUpdateUserBegin
-  | IUpdateUserSuccess
-  | IUpdateUserError
-  | IHandleChange
-  | IClearValues
-  | ICreateJobSuccess
-  | ICreateJobBegin
-  | ICreateJobError
-  | IGetJobBegin
-  | IGetJobError
-  | ISetEditJob;
 
 export interface IDisplayAlertAction {
   type: typeof DISPLAY_ALERT;
@@ -89,13 +73,13 @@ export interface IClearValues {
   payload?: any;
 }
 
-export interface ICreateJobSuccess {
-  type: typeof CREATE_JOB_SUCCESS;
+export interface ICreateJobBegin {
+  type: typeof CREATE_JOB_BEGIN;
   payload?: any;
 }
 
-export interface ICreateJobBegin {
-  type: typeof CREATE_JOB_BEGIN;
+export interface ICreateJobSuccess {
+  type: typeof CREATE_JOB_SUCCESS;
   payload?: any;
 }
 export interface ICreateJobError {
@@ -116,3 +100,46 @@ export interface ISetEditJob {
   type: typeof SET_EDIT_JOB;
   payload?: any;
 }
+
+export interface IDeleteJobBegin {
+  type: typeof DELETE_JOB_BEGIN;
+  payload?: any;
+}
+
+export interface IEditJobBegin {
+  type: typeof EDIT_JOB_BEGIN;
+  payload?: any;
+}
+
+export interface IEditJobSuccess {
+  type: typeof EDIT_JOB_SUCCESS;
+  payload?: any;
+}
+export interface IEditJobError {
+  type: typeof EDIT_JOB_ERROR;
+  payload?: any;
+}
+
+export type Action =
+  | IDisplayAlertAction
+  | IClearAlertAction
+  | ISetupUserBegin
+  | ISetupUserSuccess
+  | ISetupUserError
+  | IToggleSidebar
+  | ILogoutUser
+  | IUpdateUserBegin
+  | IUpdateUserSuccess
+  | IUpdateUserError
+  | IHandleChange
+  | IClearValues
+  | ICreateJobSuccess
+  | ICreateJobBegin
+  | ICreateJobError
+  | IGetJobBegin
+  | IGetJobError
+  | ISetEditJob
+  | IDeleteJobBegin
+  | IEditJobBegin
+  | IEditJobSuccess
+  | IEditJobError;
