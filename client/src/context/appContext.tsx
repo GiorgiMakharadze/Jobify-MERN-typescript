@@ -217,13 +217,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       });
     } catch (error: Error | any) {
       console.log(error.response);
+      //logoutUser();
     }
     clearAlert();
   };
-
-  useEffect(() => {
-    getJobs();
-  }, []);
 
   return (
     <AppContext.Provider

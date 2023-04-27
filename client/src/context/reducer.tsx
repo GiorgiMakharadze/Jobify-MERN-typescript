@@ -186,7 +186,8 @@ const reducer = (state: IContextState, action: Action): IContextState => {
     };
   }
 
-  throw new Error(`no such action: ${action}`);
+  //@ts-ignore
+  throw new Error(`no such action: ${action.type}`);
 };
 
 export default reducer;
