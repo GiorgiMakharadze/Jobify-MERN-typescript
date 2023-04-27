@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showStats = exports.deleteJob = exports.updateJob = exports.getAllJobs = exports.createJob = void 0;
 const http_status_codes_1 = require("http-status-codes");
+const moment_1 = __importDefault(require("moment"));
 const Job_1 = __importDefault(require("../models/Job"));
 const errors_1 = require("../errors");
 const checkPermissions_1 = __importDefault(require("../utils/checkPermissions"));
@@ -67,7 +68,7 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _c, _d;
     let stats = yield Job_1.default.aggregate([
         { $match: { createdBy: new mongoose_1.default.Types.ObjectId((_c = req.user) === null || _c === void 0 ? void 0 : _c.userId) } },
         { $group: { _id: "$status", count: { $sum: 1 } } },
@@ -82,7 +83,27 @@ const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         interview: stats.interview || 0,
         declined: stats.declined || 0,
     };
-    let monthlyApplications = [];
+    let monthlyApplications = yield Job_1.default.aggregate([
+        { $match: { createdBy: new mongoose_1.default.Types.ObjectId((_d = req.user) === null || _d === void 0 ? void 0 : _d.userId) } },
+        {
+            $group: {
+                _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
+                count: { $sum: 1 },
+            },
+        },
+        { $sort: { "_id.year": -1, "_id.month": -1 } },
+        { $limit: 6 },
+    ]);
+    monthlyApplications = monthlyApplications
+        .map((item) => {
+        const { _id: { year, month }, count, } = item;
+        const date = (0, moment_1.default)()
+            .month(month - 1)
+            .year(year)
+            .format("MMM Y");
+        return { date, count };
+    })
+        .reverse();
     res.status(http_status_codes_1.StatusCodes.OK).json({ defaultStats, monthlyApplications });
 });
 exports.showStats = showStats;

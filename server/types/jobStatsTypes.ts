@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export interface Stats {
   pending?: number;
   interview?: number;
@@ -11,6 +9,9 @@ export interface Stats {
 }
 
 export interface MonthlyApplications {
-  month: string;
+  _id: { year: number; month: number };
+  date: string;
   count: number;
+  month: string;
+  year: string;
 }
