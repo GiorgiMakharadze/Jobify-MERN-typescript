@@ -16,8 +16,11 @@ const createJob = async (req: IRequestWithUser, res: Response) => {
   res.status(StatusCodes.CREATED).json({ job });
 };
 
-const getAllJobs = async (req: Request, res: Response) => {
-  res.send("getAllJobs");
+const getAllJobs = async (req: IRequestWithUser, res: Response) => {
+  const jobs = await Job.find({ createdBy: req.user?.userId });
+  res
+    .status(StatusCodes.OK)
+    .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 };
 
 const updateJob = async (req: Request, res: Response) => {

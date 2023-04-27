@@ -28,7 +28,11 @@ const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.createJob = createJob;
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("getAllJobs");
+    var _b;
+    const jobs = yield Job_1.default.find({ createdBy: (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId });
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 });
 exports.getAllJobs = getAllJobs;
 const updateJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
