@@ -1,5 +1,10 @@
 const token = localStorage.getItem("token");
 
+interface MonthlyApplications {
+  month: string;
+  count: number;
+}
+
 export interface IContextState {
   isLoading: boolean;
   showAlert: boolean;
@@ -23,4 +28,11 @@ export interface IContextState {
   totalJobs: number;
   numOfPages: number;
   page: number;
+  //stats
+  stats: {
+    pending?: number;
+    interview?: number;
+    declined?: number;
+  };
+  monthlyApplications: MonthlyApplications[];
 }

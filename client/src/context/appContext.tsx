@@ -30,6 +30,8 @@ import {
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -59,6 +61,8 @@ const initialState = {
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
+  stats: {},
+  monthlyApplications: [],
 };
 
 const AppContext = createContext<any>(null);
@@ -82,6 +86,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       return response;
     },
     (error) => {
+      console.log(error);
       if (error.response.status === 401) {
         logoutUser();
       }
@@ -265,6 +270,24 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     clearAlert();
   };
 
+  const showStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN });
+    try {
+      const { data } = await authFetch("/jobs/stats");
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyApplications: data.monthlyApplications,
+        },
+      });
+    } catch (error: Error | any) {
+      console.log(error.response);
+      //logoutUser()
+    }
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -282,6 +305,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setEditJob,
         editJob,
         deleteJob,
+        showStats,
       }}
     >
       {children}

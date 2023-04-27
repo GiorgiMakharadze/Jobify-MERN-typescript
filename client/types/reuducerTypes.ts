@@ -21,6 +21,8 @@ import {
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
 } from "../src/context/action";
 
 export interface IDisplayAlertAction {
@@ -120,6 +122,15 @@ export interface IEditJobError {
   payload?: any;
 }
 
+export interface IShowStatsBegin {
+  type: typeof SHOW_STATS_BEGIN;
+  payload?: any;
+}
+export interface IShowStatsSuccess {
+  type: typeof SHOW_STATS_SUCCESS;
+  payload?: any;
+}
+
 export type Action =
   | IDisplayAlertAction
   | IClearAlertAction
@@ -142,4 +153,6 @@ export type Action =
   | IDeleteJobBegin
   | IEditJobBegin
   | IEditJobSuccess
-  | IEditJobError;
+  | IEditJobError
+  | IShowStatsBegin
+  | IShowStatsSuccess;

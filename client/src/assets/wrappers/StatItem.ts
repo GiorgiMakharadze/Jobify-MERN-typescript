@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Wrapper = styled.article`
+const Wrapper = styled.article<any>`
   padding: 2rem;
   background: var(--white);
   border-radius: var(--borderRadius);
