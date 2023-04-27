@@ -85,7 +85,6 @@ UserSchema.pre("save", function () {
         }
     });
 });
-//2a$10$Ru.dwBDECAPhstS/lwrwAOQxdbr5o2MiRL51z.EtbvYeiNhr6IYiO
 UserSchema.methods.createJWT = function () {
     return jsonwebtoken_1.default.sign({ userId: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME,

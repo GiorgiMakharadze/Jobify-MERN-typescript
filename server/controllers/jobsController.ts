@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import Job from "../models/Job";
 import { IRequestWithUser } from "../types";
-import { BadRequestError, UnauthenticatedError } from "../errors";
+import {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} from "../errors";
+import checkPermissions from "../utils/checkPermissions";
 
 const createJob = async (req: IRequestWithUser, res: Response) => {
   const { position, company } = req.body;
@@ -23,12 +28,41 @@ const getAllJobs = async (req: IRequestWithUser, res: Response) => {
     .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 };
 
-const updateJob = async (req: Request, res: Response) => {
-  res.send("updateJob");
+const updateJob = async (req: IRequestWithUser, res: Response) => {
+  const { id: jobId } = req.params;
+  const { company, position } = req.body;
+  if (!position || !company) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  const job = await Job.findOne({ _id: jobId });
+  if (!job) {
+    throw new NotFoundError(`No job with id: ${jobId}`);
+  }
+
+  checkPermissions(req.user, job.createdBy);
+
+  const updateJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(StatusCodes.OK).json({ updateJob });
 };
 
-const deleteJob = async (req: Request, res: Response) => {
-  res.send("deleteJobs ");
+const deleteJob = async (req: IRequestWithUser, res: Response) => {
+  const { id: jobId } = req.params;
+
+  const job = await Job.findOne({ _id: jobId });
+  if (!job) {
+    throw new NotFoundError(`No job with id: ${jobId}`);
+  }
+
+  checkPermissions(req.user, job.createdBy);
+
+  await job.remove();
+
+  res.status(StatusCodes.OK).json({ msg: "Success! Job remove" });
 };
 
 const showStats = async (req: Request, res: Response) => {

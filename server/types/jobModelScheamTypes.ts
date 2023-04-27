@@ -7,5 +7,5 @@ export interface IJobSchema extends Document {
   status: string;
   jobType: string;
   jobLocation: string;
-  createdBy?: Types.ObjectId;
+  createdBy?: Types.ObjectId | any;
 }

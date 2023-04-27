@@ -49,8 +49,6 @@ UserSchema.pre("save", async function () {
   }
 });
 
-//2a$10$Ru.dwBDECAPhstS/lwrwAOQxdbr5o2MiRL51z.EtbvYeiNhr6IYiO
-
 UserSchema.methods.createJWT = function () {
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET!, {
     expiresIn: process.env.JWT_LIFETIME!,

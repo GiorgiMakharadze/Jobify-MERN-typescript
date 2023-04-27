@@ -16,6 +16,7 @@ exports.showStats = exports.deleteJob = exports.updateJob = exports.getAllJobs =
 const http_status_codes_1 = require("http-status-codes");
 const Job_1 = __importDefault(require("../models/Job"));
 const errors_1 = require("../errors");
+const checkPermissions_1 = __importDefault(require("../utils/checkPermissions"));
 const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { position, company } = req.body;
@@ -36,11 +37,32 @@ const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.getAllJobs = getAllJobs;
 const updateJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("updateJob");
+    const { id: jobId } = req.params;
+    const { company, position } = req.body;
+    if (!position || !company) {
+        throw new errors_1.BadRequestError("Please provide all values");
+    }
+    const job = yield Job_1.default.findOne({ _id: jobId });
+    if (!job) {
+        throw new errors_1.NotFoundError(`No job with id: ${jobId}`);
+    }
+    (0, checkPermissions_1.default)(req.user, job.createdBy);
+    const updateJob = yield Job_1.default.findOneAndUpdate({ _id: jobId }, req.body, {
+        new: true,
+        runValidators: true,
+    });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ updateJob });
 });
 exports.updateJob = updateJob;
 const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("deleteJobs ");
+    const { id: jobId } = req.params;
+    const job = yield Job_1.default.findOne({ _id: jobId });
+    if (!job) {
+        throw new errors_1.NotFoundError(`No job with id: ${jobId}`);
+    }
+    (0, checkPermissions_1.default)(req.user, job.createdBy);
+    yield job.remove();
+    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Success! Job remove" });
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
