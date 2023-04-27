@@ -17,6 +17,7 @@ const http_status_codes_1 = require("http-status-codes");
 const Job_1 = __importDefault(require("../models/Job"));
 const errors_1 = require("../errors");
 const checkPermissions_1 = __importDefault(require("../utils/checkPermissions"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { position, company } = req.body;
@@ -66,6 +67,11 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("showStats");
+    var _c;
+    let stats = yield Job_1.default.aggregate([
+        { $match: { createdBy: new mongoose_1.default.Types.ObjectId((_c = req.user) === null || _c === void 0 ? void 0 : _c.userId) } },
+        { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ stats });
 });
 exports.showStats = showStats;
