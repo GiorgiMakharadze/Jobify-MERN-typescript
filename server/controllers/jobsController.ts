@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import Job from "../models/Job";
-import { IRequestWithUser } from "../types";
+import { IRequestWithUser, Stats, MonthlyApplications } from "../types";
 import {
   BadRequestError,
   UnauthenticatedError,
@@ -67,11 +67,25 @@ const deleteJob = async (req: IRequestWithUser, res: Response) => {
 };
 
 const showStats = async (req: IRequestWithUser, res: Response) => {
-  let stats = await Job.aggregate([
+  let stats: Stats[] = await Job.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user?.userId) } },
     { $group: { _id: "$status", count: { $sum: 1 } } },
   ]);
-  res.status(StatusCodes.OK).json({ stats });
+  stats = stats.reduce((acc: any, curr: any) => {
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {});
+
+  const defaultStats = {
+    pending: stats[0]?.pending || 0,
+    interview: stats[0]?.interview || 0,
+    declined: stats[0]?.declined || 0,
+  };
+
+  let monthlyApplications: MonthlyApplications[] = [];
+
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
 
 export { createJob, getAllJobs, updateJob, deleteJob, showStats };
