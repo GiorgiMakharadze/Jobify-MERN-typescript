@@ -67,7 +67,7 @@ const deleteJob = async (req: IRequestWithUser, res: Response) => {
 };
 
 const showStats = async (req: IRequestWithUser, res: Response) => {
-  let stats: Stats[] = await Job.aggregate([
+  let stats: Stats = await Job.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user?.userId) } },
     { $group: { _id: "$status", count: { $sum: 1 } } },
   ]);
@@ -78,9 +78,9 @@ const showStats = async (req: IRequestWithUser, res: Response) => {
   }, {});
 
   const defaultStats = {
-    pending: stats[0]?.pending || 0,
-    interview: stats[0]?.interview || 0,
-    declined: stats[0]?.declined || 0,
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
   };
 
   let monthlyApplications: MonthlyApplications[] = [];

@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
 export interface Stats {
-  _id: string;
-  count: number;
   pending?: number;
   interview?: number;
   declined?: number;
+  reduce: (
+    callback: (accumulator: any, currentValue: any) => any,
+    initialValue?: any
+  ) => any;
 }
 
 export interface MonthlyApplications {

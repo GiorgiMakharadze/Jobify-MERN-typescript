@@ -67,7 +67,7 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c, _d, _e, _f;
+    var _c;
     let stats = yield Job_1.default.aggregate([
         { $match: { createdBy: new mongoose_1.default.Types.ObjectId((_c = req.user) === null || _c === void 0 ? void 0 : _c.userId) } },
         { $group: { _id: "$status", count: { $sum: 1 } } },
@@ -78,9 +78,9 @@ const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return acc;
     }, {});
     const defaultStats = {
-        pending: ((_d = stats[0]) === null || _d === void 0 ? void 0 : _d.pending) || 0,
-        interview: ((_e = stats[0]) === null || _e === void 0 ? void 0 : _e.interview) || 0,
-        declined: ((_f = stats[0]) === null || _f === void 0 ? void 0 : _f.declined) || 0,
+        pending: stats.pending || 0,
+        interview: stats.interview || 0,
+        declined: stats.declined || 0,
     };
     let monthlyApplications = [];
     res.status(http_status_codes_1.StatusCodes.OK).json({ defaultStats, monthlyApplications });
