@@ -1,22 +1,4 @@
 import {
-  IClearAlertAction,
-  IContextState,
-  IDisplayAlertAction,
-  ISetupUserBegin,
-  ISetupUserSuccess,
-  ISetupUserError,
-  IToggleSidebar,
-  ILogoutUser,
-  IUpdateUserBegin,
-  IUpdateUserSuccess,
-  IUpdateUserError,
-  IHandleChange,
-  IClearValues,
-  ICreateJobBegin,
-  ICreateJobSuccess,
-  ICreateJobError,
-} from "../../types/contextTypes";
-import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
   SETUP_USER_BEGIN,
@@ -32,26 +14,12 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  GET_JOB_BEGIN,
+  GET_JOB_SUCCESS,
 } from "./action";
+import { IContextState, Action } from "../../types";
 
 import { initialState } from "./appContext";
-
-type Action =
-  | IDisplayAlertAction
-  | IClearAlertAction
-  | ISetupUserBegin
-  | ISetupUserSuccess
-  | ISetupUserError
-  | IToggleSidebar
-  | ILogoutUser
-  | IUpdateUserBegin
-  | IUpdateUserSuccess
-  | IUpdateUserError
-  | IHandleChange
-  | IClearValues
-  | ICreateJobSuccess
-  | ICreateJobBegin
-  | ICreateJobError;
 
 const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === DISPLAY_ALERT) {
@@ -197,6 +165,24 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === GET_JOB_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    };
+  }
+
+  if (action.type === GET_JOB_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      jobs: action.payload.jobs,
+      totalJobs: action.payload.totalJobs,
+      numOfPages: action.payload.numOfPages,
     };
   }
 

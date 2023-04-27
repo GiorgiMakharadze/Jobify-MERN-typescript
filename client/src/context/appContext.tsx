@@ -1,4 +1,10 @@
-import { useReducer, createContext, useContext, ReactNode } from "react";
+import {
+  useReducer,
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import axios from "axios";
 import reducer from "./reducer";
 import {
@@ -17,6 +23,8 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  GET_JOB_BEGIN,
+  GET_JOB_SUCCESS,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -42,6 +50,10 @@ const initialState = {
   jobType: "full-time",
   statusOptions: ["interview", "declined", "pending"],
   status: "pending",
+  jobs: [],
+  totalJobs: 0,
+  numOfPages: 1,
+  page: 1,
 };
 
 const AppContext = createContext<any>(null);
@@ -188,6 +200,31 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     clearAlert();
   };
 
+  const getJobs = async () => {
+    let url = `/jobs`;
+
+    dispatch({ type: GET_JOB_BEGIN });
+    try {
+      const { data } = await authFetch(url);
+      const { jobs, totalJobs, numOfPages } = data;
+      dispatch({
+        type: GET_JOB_SUCCESS,
+        payload: {
+          jobs,
+          totalJobs,
+          numOfPages,
+        },
+      });
+    } catch (error: Error | any) {
+      console.log(error.response);
+    }
+    clearAlert();
+  };
+
+  useEffect(() => {
+    getJobs();
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -201,6 +238,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         handleChange,
         clearValues,
         createJob,
+        getJobs,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import { IInitialState } from "./registerTypes";
 import { IFromRow } from "./formTypes";
-import { IContextState, IDisplayAlertAction } from "./contextTypes";
+import { IContextState } from "./contextTypes";
+import { Action } from "./reuducerTypes";
 
-export { IInitialState, IFromRow, IContextState, IDisplayAlertAction };
+export { IInitialState, IFromRow, IContextState, Action };
