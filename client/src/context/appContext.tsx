@@ -25,6 +25,7 @@ import {
   CREATE_JOB_ERROR,
   GET_JOB_BEGIN,
   GET_JOB_SUCCESS,
+  SET_EDIT_JOB,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -223,7 +224,11 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const setEditJob = (id: string) => {
-    console.log(`Set edit job: ${id}`);
+    dispatch({ type: SET_EDIT_JOB, payload: { id } });
+  };
+
+  const editJob = () => {
+    console.log("edit job");
   };
 
   const deleteJob = (id: string) => {
@@ -245,6 +250,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         createJob,
         getJobs,
         setEditJob,
+        editJob,
         deleteJob,
       }}
     >

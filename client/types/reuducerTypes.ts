@@ -16,6 +16,7 @@ import {
   CREATE_JOB_ERROR,
   GET_JOB_BEGIN,
   GET_JOB_SUCCESS,
+  SET_EDIT_JOB,
 } from "../src/context/action";
 
 export type Action =
@@ -35,7 +36,8 @@ export type Action =
   | ICreateJobBegin
   | ICreateJobError
   | IGetJobBegin
-  | IGetJobError;
+  | IGetJobError
+  | ISetEditJob;
 
 export interface IDisplayAlertAction {
   type: typeof DISPLAY_ALERT;
@@ -107,5 +109,10 @@ export interface IGetJobBegin {
 }
 export interface IGetJobError {
   type: typeof GET_JOB_SUCCESS;
+  payload?: any;
+}
+
+export interface ISetEditJob {
+  type: typeof SET_EDIT_JOB;
   payload?: any;
 }

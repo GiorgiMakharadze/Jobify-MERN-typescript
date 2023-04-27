@@ -19,7 +19,7 @@ export interface IContextState {
   jobType: string;
   statusOptions: string[];
   status: string;
-  jobs: object[];
+  jobs: any[];
   totalJobs: number;
   numOfPages: number;
   page: number;
