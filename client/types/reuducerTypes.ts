@@ -24,6 +24,7 @@ import {
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
+  CHANGE_PAGE,
 } from "../src/context/action";
 
 export interface IDisplayAlertAction {
@@ -137,6 +138,11 @@ export interface IClearFilters {
   payload?: any;
 }
 
+export interface IChangePage {
+  type: typeof CHANGE_PAGE;
+  payload?: any;
+}
+
 export type Action =
   | IDisplayAlertAction
   | IClearAlertAction
@@ -162,4 +168,5 @@ export type Action =
   | IEditJobError
   | IShowStatsBegin
   | IShowStatsSuccess
-  | IClearFilters;
+  | IClearFilters
+  | IChangePage;

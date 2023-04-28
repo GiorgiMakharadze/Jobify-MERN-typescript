@@ -24,6 +24,7 @@ import {
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
+  CHANGE_PAGE,
 } from "./action";
 import { IContextState, Action } from "../../types";
 
@@ -130,6 +131,7 @@ const reducer = (state: IContextState, action: Action): IContextState => {
   if (action.type === HANDLE_CHANGE) {
     return {
       ...state,
+      page: 1,
       [action.payload.name]: action.payload.value,
     };
   }
@@ -265,6 +267,13 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       searchType: "all",
       sort: "latest",
       sortOptions: ["latest", "oldest", "a-z", "z-a"],
+    };
+  }
+
+  if (action.type === CHANGE_PAGE) {
+    return {
+      ...state,
+      page: action.payload.page,
     };
   }
 
