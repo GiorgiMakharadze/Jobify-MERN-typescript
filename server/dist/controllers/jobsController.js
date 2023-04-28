@@ -58,10 +58,14 @@ const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (sort === "z-a") {
         result = result.sort("-position");
     }
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    result = result.skip(skip).limit(limit);
     const jobs = yield result;
-    res
-        .status(http_status_codes_1.StatusCodes.OK)
-        .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
+    const totalJobs = yield Job_1.default.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalJobs / limit);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ jobs, totalJobs, numOfPages });
 });
 exports.getAllJobs = getAllJobs;
 const updateJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
