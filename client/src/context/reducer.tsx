@@ -60,7 +60,6 @@ const reducer = (state: IContextState, action: Action): IContextState => {
     return {
       ...state,
       isLoading: false,
-      token: action.payload.token,
       user: action.payload.user,
       userLocation: action.payload.location,
       jobLocation: action.payload.location,
@@ -91,7 +90,6 @@ const reducer = (state: IContextState, action: Action): IContextState => {
     return {
       ...initialState,
       user: null,
-      token: null,
       userLocation: "",
       jobLocation: "",
     };
@@ -108,7 +106,6 @@ const reducer = (state: IContextState, action: Action): IContextState => {
     return {
       ...state,
       isLoading: false,
-      token: action.payload.token,
       user: action.payload.user,
       userLocation: action.payload.location,
       jobLocation: action.payload.location,

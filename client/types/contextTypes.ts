@@ -10,7 +10,6 @@ export interface IContextState {
   showAlert: boolean;
   alertText: string;
   alertType: string;
-  token: undefined | null | typeof token;
   user: undefined | null;
   userLocation: string;
   jobLocation: string;
