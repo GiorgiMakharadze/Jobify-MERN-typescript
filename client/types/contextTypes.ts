@@ -6,6 +6,7 @@ interface MonthlyApplications {
 }
 
 export interface IContextState {
+  userLoading: boolean;
   isLoading: boolean;
   showAlert: boolean;
   alertText: string;

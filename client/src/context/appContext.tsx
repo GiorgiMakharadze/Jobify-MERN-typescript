@@ -27,6 +27,7 @@ import {
   GET_JOB_SUCCESS,
   SET_EDIT_JOB,
   DELETE_JOB_BEGIN,
+  DELETE_JOB_ERROR,
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
@@ -34,9 +35,12 @@ import {
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  GET_CURRENT_USER_BEGIN,
+  GET_CURRENT_USER_SUCCESS,
 } from "./action";
 
 const initialState = {
+  userLoading: true,
   isLoading: false,
   showAlert: false,
   alertText: "",
@@ -81,7 +85,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       return response;
     },
     (error) => {
-      console.log(error);
       if (error.response.status === 401) {
         logoutUser();
       }
@@ -247,7 +250,11 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       await authFetch.delete(`/jobs/${jobId}`);
       getJobs();
     } catch (error: Error | any) {
-      logoutUser();
+      if (error.response.status === 401) return;
+      dispatch({
+        type: DELETE_JOB_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
     clearAlert();
   };
@@ -276,6 +283,26 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const changePage = (page: number[] | number) => {
     dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
+
+  const getCurrentUser = async () => {
+    dispatch({ type: GET_CURRENT_USER_BEGIN });
+    try {
+      const { data } = await authFetch(`/auth/getCurrentUser`);
+      const { user, location } = data;
+      dispatch({
+        type: GET_CURRENT_USER_SUCCESS,
+        payload: { user, location },
+      });
+    } catch (error: any) {
+      if (error.response.status === 401) return;
+      logoutUser();
+    }
+  };
+
+  useEffect(() => {
+    getCurrentUser();
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <AppContext.Provider

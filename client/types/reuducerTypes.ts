@@ -18,6 +18,7 @@ import {
   GET_JOB_SUCCESS,
   SET_EDIT_JOB,
   DELETE_JOB_BEGIN,
+  DELETE_JOB_ERROR,
   EDIT_JOB_BEGIN,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
@@ -25,6 +26,8 @@ import {
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  GET_CURRENT_USER_BEGIN,
+  GET_CURRENT_USER_SUCCESS,
 } from "../src/context/action";
 
 export interface IDisplayAlertAction {
@@ -110,6 +113,11 @@ export interface IDeleteJobBegin {
   payload?: any;
 }
 
+export interface IDeleteJobError {
+  type: typeof DELETE_JOB_ERROR;
+  payload?: any;
+}
+
 export interface IEditJobBegin {
   type: typeof EDIT_JOB_BEGIN;
   payload?: any;
@@ -143,6 +151,15 @@ export interface IChangePage {
   payload?: any;
 }
 
+export interface IGetCurrentUserBegin {
+  type: typeof GET_CURRENT_USER_BEGIN;
+  payload?: any;
+}
+export interface IGetCurrentUserSuccess {
+  type: typeof GET_CURRENT_USER_SUCCESS;
+  payload?: any;
+}
+
 export type Action =
   | IDisplayAlertAction
   | IClearAlertAction
@@ -163,10 +180,13 @@ export type Action =
   | IGetJobError
   | ISetEditJob
   | IDeleteJobBegin
+  | IDeleteJobError
   | IEditJobBegin
   | IEditJobSuccess
   | IEditJobError
   | IShowStatsBegin
   | IShowStatsSuccess
   | IClearFilters
-  | IChangePage;
+  | IChangePage
+  | IGetCurrentUserBegin
+  | IGetCurrentUserSuccess;
