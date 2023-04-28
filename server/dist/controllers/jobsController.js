@@ -42,7 +42,22 @@ const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (jobType !== "all") {
         queryObject.jobType = jobType;
     }
+    if (search) {
+        queryObject.position = { $regex: search, $options: "i" };
+    }
     let result = Job_1.default.find(queryObject);
+    if (sort === "latest") {
+        result = result.sort("-createdAt");
+    }
+    if (sort === "oldest") {
+        result = result.sort("createdAt");
+    }
+    if (sort === "a-z") {
+        result = result.sort("position");
+    }
+    if (sort === "z-a") {
+        result = result.sort("-position");
+    }
     const jobs = yield result;
     res
         .status(http_status_codes_1.StatusCodes.OK)
