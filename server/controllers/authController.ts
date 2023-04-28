@@ -33,10 +33,6 @@ const register = async (req: Request, res: Response) => {
   });
 };
 
-const verifyEmail = async (req: Request, res: Response) => {
-  res.send("verifyEmail");
-};
-
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -59,14 +55,6 @@ const login = async (req: Request, res: Response) => {
 
 const logout = async (req: Request, res: Response) => {
   res.send("logout user");
-};
-
-const forgotPassword = async (req: Request, res: Response) => {
-  res.send("forgotPassword user");
-};
-
-const resetPassword = async (req: Request, res: Response) => {
-  res.send("resetPassword user");
 };
 
 const updateUser = async (req: IRequestWithUser, res: Response) => {
@@ -92,12 +80,4 @@ const updateUser = async (req: IRequestWithUser, res: Response) => {
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
-export {
-  register,
-  verifyEmail,
-  login,
-  forgotPassword,
-  logout,
-  resetPassword,
-  updateUser,
-};
+export { register, login, logout, updateUser };

@@ -12,4 +12,5 @@ export interface IRequestWithUser {
   header: any;
   body: any;
   params: any;
+  query: any;
 }

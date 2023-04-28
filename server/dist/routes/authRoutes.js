@@ -11,7 +11,4 @@ router.route("/register").post(authController_1.register);
 router.route("/login").post(authController_1.login);
 router.route("/logout").delete(authController_1.logout);
 router.route("/updateUser").patch(auth_1.default, authController_1.updateUser);
-router.route("/verify-email").post(authController_1.verifyEmail);
-router.route("/forgot-password").post(authController_1.forgotPassword);
-router.route("/reset-password").post(authController_1.resetPassword);
 exports.default = router;

@@ -32,7 +32,18 @@ const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.createJob = createJob;
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
-    const jobs = yield Job_1.default.find({ createdBy: (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId });
+    const { search, status, jobType, sort } = req.query;
+    const queryObject = {
+        createdBy: (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId,
+    };
+    if (status !== "all") {
+        queryObject.status = status;
+    }
+    if (jobType !== "all") {
+        queryObject.jobType = jobType;
+    }
+    let result = Job_1.default.find(queryObject);
+    const jobs = yield result;
     res
         .status(http_status_codes_1.StatusCodes.OK)
         .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
