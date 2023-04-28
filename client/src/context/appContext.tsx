@@ -238,8 +238,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         },
       });
     } catch (error: Error | any) {
-      console.log(error.response);
-      //logoutUser();
+      logoutUser();
     }
     clearAlert();
   };
@@ -276,8 +275,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       await authFetch.delete(`/jobs/${jobId}`);
       getJobs();
     } catch (error: Error | any) {
-      console.log(error.response);
-      //logoutUser();
+      logoutUser();
     }
     clearAlert();
   };
@@ -294,8 +292,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         },
       });
     } catch (error: Error | any) {
-      console.log(error.response);
-      //logoutUser()
+      logoutUser();
     }
     clearAlert();
   };
