@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.login = exports.register = void 0;
+exports.getCurrentUser = exports.updateUser = exports.login = exports.register = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const User_1 = __importDefault(require("../models/User"));
 const errors_1 = require("../errors");
@@ -79,3 +79,9 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user.location });
 });
 exports.updateUser = updateUser;
+const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
+    const user = yield User_1.default.findOne({ _id: (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user === null || user === void 0 ? void 0 : user.location });
+});
+exports.getCurrentUser = getCurrentUser;
