@@ -30,11 +30,10 @@ const getAllJobs = async (req: IRequestWithUser, res: Response) => {
     createdBy: req.user?.userId,
   };
 
-  if (status !== "all") {
+  if (status && status !== "all") {
     queryObject.status = status;
   }
-
-  if (jobType !== "all") {
+  if (jobType && jobType !== "all") {
     queryObject.jobType = jobType;
   }
 
@@ -104,7 +103,7 @@ const deleteJob = async (req: IRequestWithUser, res: Response) => {
 
   await job.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Job remove" });
+  res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
 };
 
 const showStats = async (req: IRequestWithUser, res: Response) => {
@@ -112,7 +111,7 @@ const showStats = async (req: IRequestWithUser, res: Response) => {
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user?.userId) } },
     { $group: { _id: "$status", count: { $sum: 1 } } },
   ]);
-  stats = stats.reduce((acc: any, curr: any) => {
+  stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
     acc[title] = count;
     return acc;

@@ -273,7 +273,6 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       searchStatus: "all",
       searchType: "all",
       sort: "latest",
-      sortOptions: ["latest", "oldest", "a-z", "z-a"],
     };
   }
 

@@ -8,7 +8,7 @@ const Landing = () => {
   const { user } = useAppContext();
   return (
     <>
-      {user && <Navigate to={"/"} />}
+      {user && <Navigate to="/" />}
       <Wrapper>
         <nav>
           <Logo />

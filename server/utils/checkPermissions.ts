@@ -1,5 +1,5 @@
 import { UnauthenticatedError } from "../errors";
-import { IRequestWithUser, User } from "../types";
+import { User } from "../types";
 
 const checkPermissions = (
   requestUser: User | undefined,

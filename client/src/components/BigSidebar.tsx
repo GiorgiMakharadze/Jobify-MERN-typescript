@@ -4,7 +4,7 @@ import NavLinks from "./NavLinks";
 import Logo from "../components/Logo";
 
 const BigSidebar = () => {
-  const { showSidebar, toggleSidebar } = useAppContext();
+  const { showSidebar } = useAppContext();
 
   return (
     <Wrapper>

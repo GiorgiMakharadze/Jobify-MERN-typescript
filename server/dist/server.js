@@ -17,6 +17,9 @@ require("dotenv/config");
 require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const helmet_1 = __importDefault(require("helmet"));
+const xss_clean_1 = __importDefault(require("xss-clean"));
+const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const middleware_1 = require("./middleware/");
 const connect_1 = require("./db/connect");
 const auth_1 = __importDefault(require("./middleware/auth"));
@@ -24,11 +27,14 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const jobsRoutes_1 = __importDefault(require("./routes/jobsRoutes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
-//middleware
+//middleware & security
 if (process.env.NODE_ENV !== "production") {
     app.use((0, morgan_1.default)("dev"));
 }
 app.use(express_1.default.json());
+app.use((0, helmet_1.default)());
+app.use((0, xss_clean_1.default)());
+app.use((0, express_mongo_sanitize_1.default)());
 app.use((0, cookie_parser_1.default)());
 //routes
 app.get("/api/v1", (req, res) => {
