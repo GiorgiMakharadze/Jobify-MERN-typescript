@@ -35,4 +35,9 @@ export interface IContextState {
     declined?: number;
   };
   monthlyApplications: MonthlyApplications[];
+  search: string;
+  searchStatus: string;
+  searchType: string;
+  sort: string;
+  sortOptions: string[];
 }

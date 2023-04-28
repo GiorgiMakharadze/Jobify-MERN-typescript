@@ -23,6 +23,7 @@ import {
   EDIT_JOB_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  CLEAR_FILTERS,
 } from "./action";
 import { IContextState, Action } from "../../types";
 
@@ -253,6 +254,17 @@ const reducer = (state: IContextState, action: Action): IContextState => {
       isLoading: false,
       stats: action.payload.stats,
       monthlyApplications: action.payload.monthlyApplications,
+    };
+  }
+
+  if (action.type === CLEAR_FILTERS) {
+    return {
+      ...state,
+      search: "",
+      searchStatus: "all",
+      searchType: "all",
+      sort: "latest",
+      sortOptions: ["latest", "oldest", "a-z", "z-a"],
     };
   }
 

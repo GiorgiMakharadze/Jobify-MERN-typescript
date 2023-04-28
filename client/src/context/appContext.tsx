@@ -32,6 +32,7 @@ import {
   EDIT_JOB_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  CLEAR_FILTERS,
 } from "./action";
 
 const token = localStorage.getItem("token");
@@ -217,8 +218,12 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getJobs = async () => {
-    let url = `/jobs`;
+    const { search, searchStatus, searchType, sort } = state;
 
+    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+    if (search) {
+      url = url + `&search=${search}`;
+    }
     dispatch({ type: GET_JOB_BEGIN });
     try {
       const { data } = await authFetch(url);
@@ -295,7 +300,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const clearFilters = () => {
-    console.log("clear filters");
+    dispatch({ type: CLEAR_FILTERS });
   };
 
   return (

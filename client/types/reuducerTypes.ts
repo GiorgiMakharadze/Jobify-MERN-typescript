@@ -23,6 +23,7 @@ import {
   EDIT_JOB_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  CLEAR_FILTERS,
 } from "../src/context/action";
 
 export interface IDisplayAlertAction {
@@ -131,6 +132,11 @@ export interface IShowStatsSuccess {
   payload?: any;
 }
 
+export interface IClearFilters {
+  type: typeof CLEAR_FILTERS;
+  payload?: any;
+}
+
 export type Action =
   | IDisplayAlertAction
   | IClearAlertAction
@@ -155,4 +161,5 @@ export type Action =
   | IEditJobSuccess
   | IEditJobError
   | IShowStatsBegin
-  | IShowStatsSuccess;
+  | IShowStatsSuccess
+  | IClearFilters;
