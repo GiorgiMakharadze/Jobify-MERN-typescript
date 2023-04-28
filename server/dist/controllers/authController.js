@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrentUser = exports.updateUser = exports.login = exports.register = void 0;
+exports.logoutUser = exports.getCurrentUser = exports.updateUser = exports.login = exports.register = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const User_1 = __importDefault(require("../models/User"));
 const errors_1 = require("../errors");
@@ -85,3 +85,11 @@ const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user === null || user === void 0 ? void 0 : user.location });
 });
 exports.getCurrentUser = getCurrentUser;
+const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.cookie("token", "logout", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+    });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "user logged out" });
+});
+exports.logoutUser = logoutUser;

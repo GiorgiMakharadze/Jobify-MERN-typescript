@@ -87,4 +87,12 @@ const getCurrentUser = async (req: IRequestWithUser, res: Response) => {
   res.status(StatusCodes.OK).json({ user, location: user?.location });
 };
 
-export { register, login, updateUser, getCurrentUser };
+const logoutUser = async (req: Request, res: Response) => {
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "user logged out" });
+};
+
+export { register, login, updateUser, getCurrentUser, logoutUser };
