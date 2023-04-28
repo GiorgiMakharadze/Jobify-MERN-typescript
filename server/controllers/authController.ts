@@ -7,6 +7,7 @@ import {
   UnauthenticatedError,
   NotFoundError,
 } from "../errors";
+import attachCookies from "../utils/attachCookies";
 
 const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -22,6 +23,8 @@ const register = async (req: Request, res: Response) => {
   const user = await User.create({ name, email, password });
 
   const token = user.createJWT();
+  attachCookies({ res, token });
+
   res.status(StatusCodes.CREATED).json({
     user: {
       email: user.email,
@@ -29,7 +32,7 @@ const register = async (req: Request, res: Response) => {
       lastName: user.lastName,
       location: user.location,
     },
-    token,
+    location: user.location,
   });
 };
 
@@ -50,11 +53,9 @@ const login = async (req: Request, res: Response) => {
   }
   const token = user.createJWT();
   user.password = undefined;
-  res.status(StatusCodes.OK).json({ user, token, location: user.location });
-};
+  attachCookies({ res, token });
 
-const logout = async (req: Request, res: Response) => {
-  res.send("logout user");
+  res.status(StatusCodes.OK).json({ user, location: user.location });
 };
 
 const updateUser = async (req: IRequestWithUser, res: Response) => {
@@ -76,8 +77,9 @@ const updateUser = async (req: IRequestWithUser, res: Response) => {
   await user?.save();
 
   const token = user?.createJWT();
+  attachCookies({ res, token });
 
-  res.status(StatusCodes.OK).json({ user, token, location: user.location });
+  res.status(StatusCodes.OK).json({ user, location: user.location });
 };
 
-export { register, login, logout, updateUser };
+export { register, login, updateUser };

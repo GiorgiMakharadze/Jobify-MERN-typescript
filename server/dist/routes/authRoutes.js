@@ -9,6 +9,5 @@ const auth_1 = __importDefault(require("../middleware/auth"));
 const router = (0, express_1.Router)();
 router.route("/register").post(authController_1.register);
 router.route("/login").post(authController_1.login);
-router.route("/logout").delete(authController_1.logout);
 router.route("/updateUser").patch(auth_1.default, authController_1.updateUser);
 exports.default = router;

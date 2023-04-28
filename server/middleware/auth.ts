@@ -8,12 +8,11 @@ const auth = async (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.header("authorization");
-
-  if (!authHeader || !authHeader.startsWith("Bearer")) {
+  const token = req.cookies.token;
+  if (!token) {
     throw new UnauthenticatedError("Authentication Invalid");
   }
-  const token = authHeader?.split(" ")[1];
+
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
     req.user = { userId: payload.userId };

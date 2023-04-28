@@ -9,7 +9,8 @@ export interface IRequestWithUser {
   _id?: string;
   userId?: string;
   role?: string;
-  header: any;
+  cookies: string | any;
+  headers: any;
   body: any;
   params: any;
   query: any;

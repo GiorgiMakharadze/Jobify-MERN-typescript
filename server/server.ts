@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import "express-async-errors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
 import { connectDB } from "./db/connect";
 import authenticateUser from "./middleware/auth";
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 app.use(express.json());
+app.use(cookieParser());
 
 //routes
 app.get("/api/v1", (req, res) => {

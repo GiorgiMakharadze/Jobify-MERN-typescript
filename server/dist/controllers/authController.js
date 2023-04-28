@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.logout = exports.login = exports.register = void 0;
+exports.updateUser = exports.login = exports.register = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const User_1 = __importDefault(require("../models/User"));
 const errors_1 = require("../errors");
+const attachCookies_1 = __importDefault(require("../utils/attachCookies"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
@@ -27,6 +28,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const user = yield User_1.default.create({ name, email, password });
     const token = user.createJWT();
+    (0, attachCookies_1.default)({ res, token });
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         user: {
             email: user.email,
@@ -34,7 +36,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             lastName: user.lastName,
             location: user.location,
         },
-        token,
+        location: user.location,
     });
 });
 exports.register = register;
@@ -53,13 +55,10 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const token = user.createJWT();
     user.password = undefined;
-    res.status(http_status_codes_1.StatusCodes.OK).json({ user, token, location: user.location });
+    (0, attachCookies_1.default)({ res, token });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user.location });
 });
 exports.login = login;
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("logout user");
-});
-exports.logout = logout;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { email, name, location, lastName } = req.body;
@@ -76,6 +75,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     user.location = location;
     yield (user === null || user === void 0 ? void 0 : user.save());
     const token = user === null || user === void 0 ? void 0 : user.createJWT();
-    res.status(http_status_codes_1.StatusCodes.OK).json({ user, token, location: user.location });
+    (0, attachCookies_1.default)({ res, token });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user.location });
 });
 exports.updateUser = updateUser;
