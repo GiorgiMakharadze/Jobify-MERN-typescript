@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import "express-async-errors";
+import path from "path";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
@@ -14,6 +15,7 @@ import jobsRouter from "./routes/jobsRoutes";
 
 const app = express();
 const port = process.env.PORT || 5000;
+const __dirnames = path.resolve();
 
 //middleware & security
 if (process.env.NODE_ENV !== "production") {
@@ -25,10 +27,15 @@ app.use(xss());
 app.use(mongoSanitize());
 app.use(cookieParser());
 
-//routes
+app.use(express.static(path.resolve("../client/build")));
 
+//routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirnames, "../client/build", "index.html"));
+});
 
 // error handling
 app.use(notFoundMiddleware);

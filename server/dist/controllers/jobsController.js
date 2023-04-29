@@ -36,10 +36,10 @@ const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const queryObject = {
         createdBy: (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId,
     };
-    if (status !== "all") {
+    if (status && status !== "all") {
         queryObject.status = status;
     }
-    if (jobType !== "all") {
+    if (jobType && jobType !== "all") {
         queryObject.jobType = jobType;
     }
     if (search) {
@@ -94,7 +94,7 @@ const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     (0, checkPermissions_1.default)(req.user, job.createdBy);
     yield job.remove();
-    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Success! Job remove" });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Success! Job removed" });
 });
 exports.deleteJob = deleteJob;
 const showStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

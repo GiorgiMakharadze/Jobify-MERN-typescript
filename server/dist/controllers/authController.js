@@ -54,8 +54,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         throw new errors_1.UnauthenticatedError("Invalid Credentials");
     }
     const token = user.createJWT();
-    user.password = undefined;
     (0, attachCookies_1.default)({ res, token });
+    user.password = undefined;
     res.status(http_status_codes_1.StatusCodes.OK).json({ user, location: user.location });
 });
 exports.login = login;
